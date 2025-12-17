@@ -13,6 +13,8 @@ const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const book_category_module_1 = require("./book-category/book-category.module");
 const book_category_entity_1 = require("./book-category/entities/book-category.entity");
+const book_entity_1 = require("./book/entities/book.entity");
+const book_module_1 = require("./book/book.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -26,10 +28,11 @@ exports.AppModule = AppModule = __decorate([
                 username: 'admin',
                 password: 'password123',
                 database: 'bookstore_dev',
-                entities: [book_category_entity_1.BookCategory],
+                entities: [book_category_entity_1.BookCategory, book_entity_1.Book],
                 synchronize: true,
             }),
             book_category_module_1.BookCategoryModule,
+            book_module_1.BookModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
