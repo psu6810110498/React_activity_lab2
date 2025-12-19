@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Book = void 0;
 const typeorm_1 = require("typeorm");
+const user_entity_1 = require("../../users/entities/user.entity");
 const book_category_entity_1 = require("../../book-category/entities/book-category.entity");
 let Book = class Book {
     id;
@@ -18,6 +19,7 @@ let Book = class Book {
     author;
     price;
     likeCount;
+    likedBy;
     category;
     categoryId;
 };
@@ -42,6 +44,11 @@ __decorate([
     (0, typeorm_1.Column)({ default: 0 }),
     __metadata("design:type", Number)
 ], Book.prototype, "likeCount", void 0);
+__decorate([
+    (0, typeorm_1.ManyToMany)(() => user_entity_1.User, (user) => user.likedBooks),
+    (0, typeorm_1.JoinTable)(),
+    __metadata("design:type", Array)
+], Book.prototype, "likedBy", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => book_category_entity_1.BookCategory, (category) => category.id),
     __metadata("design:type", book_category_entity_1.BookCategory)

@@ -10,5 +10,5 @@ export declare class BookService {
     findOne(id: string): Promise<Book | null>;
     update(id: string, updateBookDto: UpdateBookDto): Promise<import("typeorm").UpdateResult>;
     remove(id: string): Promise<import("typeorm").DeleteResult>;
-    incrementLikes(id: string): Promise<Book>;
+    toggleLike(id: string, userId: string): Promise<Book>;
 }

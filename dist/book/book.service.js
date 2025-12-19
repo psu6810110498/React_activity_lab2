@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const book_entity_1 = require("./entities/book.entity");
+const user_entity_1 = require("../users/entities/user.entity");
 let BookService = class BookService {
     bookRepository;
     constructor(bookRepository) {
@@ -42,12 +43,25 @@ let BookService = class BookService {
     remove(id) {
         return this.bookRepository.delete(id);
     }
-    async incrementLikes(id) {
-        const book = await this.findOne(id);
+    async toggleLike(id, userId) {
+        const book = await this.bookRepository.findOne({
+            where: { id },
+            relations: ['likedBy'],
+        });
         if (!book) {
             throw new Error('Book not found');
         }
-        book.likeCount += 1;
+        const userIndex = book.likedBy.findIndex((user) => user.id === userId);
+        if (userIndex !== -1) {
+            book.likedBy.splice(userIndex, 1);
+            book.likeCount -= 1;
+        }
+        else {
+            const user = new user_entity_1.User();
+            user.id = userId;
+            book.likedBy.push(user);
+            book.likeCount += 1;
+        }
         return this.bookRepository.save(book);
     }
 };
